@@ -15,7 +15,7 @@
           </v-row>
           <v-row class="my-2 d-flex justify-center">
             <v-col class="col-12 col-sm-2 pa-lg-6 text-center">
-              <router-link to="">
+              <router-link :to="{ name: 'resume' }">
                 <v-btn outlined large color="primary">Resume</v-btn>
               </router-link>
             </v-col>
