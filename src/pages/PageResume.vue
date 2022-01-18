@@ -7,6 +7,7 @@
       flat
       dense
       color="teal"
+      width="100vh"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -63,32 +64,37 @@
         </v-navigation-drawer>
       </v-card>
 
-
+      <!-- Content -->
       <div 
         id="content" 
         style="width: 100%; background-color: #9ed2a1"
-        class="pa-5"
+        class="d-flex flex-column"
       >
-        <v-row>
-          <v-col class="col-12">
-            <v-card>
-              <v-card-title>
-                <h1 class="font-comfortaa">Profile</h1>
-              </v-card-title>
-              <v-card-text>
-                <v-row class="mt-2">
-                  <v-col class="col-4">
-                    <v-img src="@/assets/images/avatar.jpg" alt="Shandy" max-width="200" max-height="200"></v-img>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+
+        <!-- Intro -->
+        <v-card
+          height="100vh"
+          width="100%"
+        >
+          <v-img 
+            src="@/assets/images/resume_intro.jpg" 
+            alt="Shandy with a straw hat" 
+            height="100vh"
+            width="100%"
+            class="pa-2"
+          >
+            <v-overlay>
+              <h2>Test</h2>
+            </v-overlay>
+            
+          </v-img>
+        </v-card>
+
+        <!-- Profile -->
+        <p>Test</p>
+
       </div>
-
     </div>
-
   </div>
   
 </template>
@@ -120,6 +126,11 @@ export default {
 
 .font-comfortaa {
   font-family: 'Comfortaa';
+}
+
+.background-image {
+  background-image: url('../assets/images/resume_intro.jpg');
+  background-size: auto;
 }
 
 </style>

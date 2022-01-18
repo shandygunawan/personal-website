@@ -19,8 +19,9 @@ export default {
 
 <style>
 
-html {
+html{
   overflow-y: auto;
+  
 }
 
 @font-face {
