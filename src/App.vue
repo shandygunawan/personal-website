@@ -23,4 +23,9 @@ html {
   overflow-y: auto;
 }
 
+@font-face {
+  font-family: "Comfortaa";
+  src: url('./assets/fonts/Comfortaa-Regular.ttf');
+}
+
 </style>
