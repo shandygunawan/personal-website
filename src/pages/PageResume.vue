@@ -85,25 +85,34 @@
             class="pa-2 d-flex align-center"
             gradient="rgba(0,0,0,.5), rgba(0,0,0,.5)"
           >
-            <h1 
+            <div
               v-if="$vuetify.breakpoint.smAndUp"
               class="font-comfortaa text-center"
             >
-              <vue-typer 
-                text="Hello World! I was registered locally!"
-                :repeat="0"
-              ></vue-typer>
-            </h1>
-            
-            <h4
+              <h1>
+                <vue-typer 
+                  :text="intro_vuetyper.text"
+                  :repeat="intro_vuetyper.repeat"
+                  :type-delay="intro_vuetyper.typeDelay"
+                  :pre-type-delay='intro_vuetyper.preTypeDelay'
+                  :caret-animation='intro_vuetyper.caretAnimation'
+                ></vue-typer>
+              </h1>
+            </div>
+
+            <div 
               v-else
-              class="font-comfortaa text-center"
+              class="font-comfortaa text-right"
             >
               <vue-typer 
-                text="Hello World! I was registered locally!"
-                :repeat="0"
+                :text="intro_vuetyper.text"
+                :repeat="intro_vuetyper.repeat"
+                :type-delay="intro_vuetyper.typeDelay"
+                :pre-type-delay='intro_vuetyper.preTypeDelay'
+                :caret-animation='intro_vuetyper.caretAnimation'
+                @typed="enableIntroIconScrollDown"
               ></vue-typer>
-            </h4>
+            </div>
 
           </v-img>
         </v-card>
@@ -139,6 +148,41 @@ export default {
         { title: 'Awards', icon: 'mdi-medal' },
         { title: 'Contact', icon: 'mdi-email' },
       ],
+
+      intro_vuetyper: {
+        text: `
+        Hi! I'm Shandy, a full stack developer.
+        I'm ${this.getCurrentAge()} years old,
+        and I live in Jakarta, Indonesia.
+        
+        I'm always looking for opportunities
+        to grow as a developer.
+        
+        If you want to know more about me,
+        feel free to scroll down.`,
+
+        repeat: 0,
+        typeDelay: 55,
+        preTypeDelay: 120,
+        caretAnimation: 'expand',
+        icon_scroll_down: false
+      }
+
+    }
+  },
+  methods: {
+    getCurrentAge() {
+      var today = new Date();
+      var birthDate = new Date("1998-09-21");
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+      }
+      return age;
+    },
+    enableIntroIconScrollDown() {
+      this.intro_vuetyper.icon_scroll_down = true;
     }
   }
 }
@@ -160,7 +204,30 @@ export default {
 
 /* https://github.com/cngu/vue-typer/issues/45 */
 ::v-deep .typed {
-  color: white !important;
+  color: cyan !important;
+}
+
+::v-deep .custom.caret {
+  width: 5px;
+  background-color: cyan !important;
+}
+
+/* ANIMATION */
+.bounce-4 {
+    animation-name: bounce-4;
+    animation-timing-function: ease;
+}
+@keyframes bounce-4 {
+    0%   { transform: scale(1,1)    translateY(0); }
+    10%  { transform: scale(1.1,.9) translateY(0); }
+    30%  { transform: scale(.9,1.1) translateY(-50px); }
+    50%  { transform: scale(1,1)    translateY(0); }
+    100% { transform: scale(1,1)    translateY(0); }
+}
+.text-landing-scroll-down {
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  color:var(--blue-100);
 }
 
 </style>
