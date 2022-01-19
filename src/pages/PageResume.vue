@@ -1,19 +1,20 @@
 <template>
 
   <div>
-    <v-toolbar
+    <v-app-bar
       v-if="$vuetify.breakpoint.mdAndDown"
+      app
       dark
       flat
       dense
       color="teal"
-      width="100vh"
+      width="100%"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Resume</v-toolbar-title>
 
-    </v-toolbar>
+    </v-app-bar>
 
     <div class="d-flex">
       <!-- Sidebar -->
@@ -81,13 +82,29 @@
             alt="Shandy with a straw hat" 
             height="100vh"
             width="100%"
-            class="pa-2"
-            eager
+            class="pa-2 d-flex align-center"
+            gradient="rgba(0,0,0,.5), rgba(0,0,0,.5)"
           >
-            <v-overlay>
-              <h2>Test</h2>
-            </v-overlay>
+            <h1 
+              v-if="$vuetify.breakpoint.smAndUp"
+              class="font-comfortaa text-center"
+            >
+              <vue-typer 
+                text="Hello World! I was registered locally!"
+                :repeat="0"
+              ></vue-typer>
+            </h1>
             
+            <h4
+              v-else
+              class="font-comfortaa text-center"
+            >
+              <vue-typer 
+                text="Hello World! I was registered locally!"
+                :repeat="0"
+              ></vue-typer>
+            </h4>
+
           </v-img>
         </v-card>
 
@@ -101,8 +118,12 @@
 </template>
 
 <script>
+import { VueTyper } from 'vue-typer';
 
 export default {
+  components: {
+    VueTyper
+  },
   created() {
     if(this.$vuetify.breakpoint.mdAndUp) {
       this.drawer = true;
@@ -118,7 +139,6 @@ export default {
         { title: 'Awards', icon: 'mdi-medal' },
         { title: 'Contact', icon: 'mdi-email' },
       ],
-      resume_intro_image_path: "../assets/images/resume_intro.jpg",
     }
   }
 }
@@ -133,6 +153,14 @@ export default {
 .background-image {
   background-image: url('../assets/images/resume_intro.jpg');
   background-size: auto;
+}
+
+
+/* Vue Typer */
+
+/* https://github.com/cngu/vue-typer/issues/45 */
+::v-deep .typed {
+  color: white !important;
 }
 
 </style>
