@@ -72,13 +72,13 @@
         class="d-flex flex-column"
       >
 
-        <!-- Intro -->
+        <!-- Profile -->
         <v-card
           height="100vh"
           width="100%"
         >
           <v-img 
-            src="@/assets/images/resume_intro.jpg" 
+            src="@/assets/images/resume_profile.jpg" 
             alt="Shandy with a straw hat" 
             height="100vh"
             width="100%"
@@ -91,11 +91,11 @@
             >
               <h1>
                 <vue-typer 
-                  :text="intro_vuetyper.text"
-                  :repeat="intro_vuetyper.repeat"
-                  :type-delay="intro_vuetyper.typeDelay"
-                  :pre-type-delay='intro_vuetyper.preTypeDelay'
-                  :caret-animation='intro_vuetyper.caretAnimation'
+                  :text="profile_vuetyper.text"
+                  :repeat="profile_vuetyper.repeat"
+                  :type-delay="profile_vuetyper.typeDelay"
+                  :pre-type-delay='profile_vuetyper.preTypeDelay'
+                  :caret-animation='profile_vuetyper.caretAnimation'
                 ></vue-typer>
               </h1>
             </div>
@@ -105,19 +105,18 @@
               class="font-comfortaa text-right"
             >
               <vue-typer 
-                :text="intro_vuetyper.text"
-                :repeat="intro_vuetyper.repeat"
-                :type-delay="intro_vuetyper.typeDelay"
-                :pre-type-delay='intro_vuetyper.preTypeDelay'
-                :caret-animation='intro_vuetyper.caretAnimation'
-                @typed="enableIntroIconScrollDown"
+                :text="profile_vuetyper.text"
+                :repeat="profile_vuetyper.repeat"
+                :type-delay="profile_vuetyper.typeDelay"
+                :pre-type-delay='profile_vuetyper.preTypeDelay'
+                :caret-animation='profile_vuetyper.caretAnimation'
               ></vue-typer>
             </div>
 
           </v-img>
         </v-card>
 
-        <!-- Profile -->
+        <!-- Experiences -->
         <p>Test</p>
 
       </div>
@@ -149,7 +148,7 @@ export default {
         { title: 'Contact', icon: 'mdi-email' },
       ],
 
-      intro_vuetyper: {
+      profile_vuetyper: {
         text: `
         Hi! I'm Shandy, a full stack developer.
         I'm ${this.getCurrentAge()} years old,
@@ -164,8 +163,7 @@ export default {
         repeat: 0,
         typeDelay: 55,
         preTypeDelay: 120,
-        caretAnimation: 'expand',
-        icon_scroll_down: false
+        caretAnimation: 'expand'
       }
 
     }
@@ -180,9 +178,6 @@ export default {
           age--;
       }
       return age;
-    },
-    enableIntroIconScrollDown() {
-      this.intro_vuetyper.icon_scroll_down = true;
     }
   }
 }
@@ -192,11 +187,6 @@ export default {
 
 .font-comfortaa {
   font-family: 'Comfortaa';
-}
-
-.background-image {
-  background-image: url('../assets/images/resume_intro.jpg');
-  background-size: auto;
 }
 
 
