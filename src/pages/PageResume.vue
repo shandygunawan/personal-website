@@ -82,6 +82,7 @@
             height="100vh"
             width="100%"
             class="pa-2"
+            eager
           >
             <v-overlay>
               <h2>Test</h2>
@@ -117,6 +118,7 @@ export default {
         { title: 'Awards', icon: 'mdi-medal' },
         { title: 'Contact', icon: 'mdi-email' },
       ],
+      resume_intro_image_path: "../assets/images/resume_intro.jpg",
     }
   }
 }
