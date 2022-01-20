@@ -4,6 +4,8 @@ import VueRouter from 'vue-router';
 
 // 3rd Parties
 import vuetify from './plugins/vuetify';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Local
 import App from './App.vue';
@@ -13,6 +15,8 @@ Vue.config.productionTip = false
 
 
 Vue.use(VueRouter);
+
+AOS.init();
 
 new Vue({
   vuetify,
