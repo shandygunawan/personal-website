@@ -139,7 +139,7 @@
           style="background-color: #9ed2a1"
           elevation="0"
         >
-          <v-card-title :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-center': ''">
+          <v-card-title class="d-flex justify-center">
             <h1>
               <vue-typer
                 text="Experiences"
@@ -212,7 +212,7 @@
           style="background-color: #9ed2a1"
           elevation="0"
         >
-          <v-card-title :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-center': ''">
+          <v-card-title class="d-flex justify-center">
             <h1>
               <vue-typer
                 text="Skills"
@@ -254,10 +254,10 @@
             }
           }"
           class="pt-13"
-          style="background-color: #9ed2a1"
+          style="background-color: #9ed2a1;"
           elevation="0"
         >
-          <v-card-title :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-center': ''">
+          <v-card-title class="d-flex justify-center">
             <h1>
               <vue-typer
                 text="Awards"
@@ -281,6 +281,141 @@
                 <AwardHoverCard :award="award" />
               </v-col>
             </v-row>
+          </v-card-text>
+
+        </v-card>
+
+        <!-- Contact -->
+        <v-card
+          id="contact"
+          ref="contact"
+          v-intersect="{
+            handler: updateNavDrawerOnIntersect,
+            options: {
+              threshold: [0.5, 1]
+            }
+          }"
+          class="pt-13"
+          style="background-color: #434242; height: 100%;"
+          elevation="0"
+        >
+
+          <v-card-title class="d-flex justify-center">
+            <h1 class="white--text font-comfortaa">
+              Contact
+            </h1>
+          </v-card-title>
+
+          <v-card-text>
+            <v-row class="mt-5 d-flex justify-center">
+              <v-col class="col-12 d-flex justify-center">
+                
+                <h4 v-if="$vuetify.breakpoint.mdAndDown" class="grey--text text-center">
+                  “If I had asked people what they wanted, they would have said faster horses. ”
+                  <br>
+                  - Henry Ford
+                </h4>
+                <h2 v-else class="grey--text text-center">
+                  “If I had asked people what they wanted, they would have said faster horses. ”
+                  <br>
+                  - Henry Ford
+                </h2>
+              </v-col>
+            </v-row>
+
+            <v-row class="my-5 d-flex justify-center">
+              <v-col class="col-12 d-flex justify-center">
+                <v-divider color="gray" light></v-divider>
+              </v-col>
+            </v-row>
+
+            <v-row class="mt-10 mb-10 d-flex justify-center">
+              <v-col class="col-4 col-md-2 d-flex justify-center">
+                <a href="https://github.com/shandygunawan">
+                  <v-hover v-slot="{ hover}">
+                    <v-icon 
+                      size="75"
+                      :color="hover ? 'teal' : 'white'"
+                    >
+                      mdi-github
+                    </v-icon>
+                  </v-hover>
+                </a>
+              </v-col>
+              <v-col class="col-4 col-md-2 d-flex justify-center">
+                <a href="mailto:shandy.gunawan@rocketmail.com">
+                  <v-hover v-slot="{ hover}">
+                    <v-icon 
+                      size="75"
+                      :color="hover ? 'teal' : 'white'"
+                    >
+                      mdi-email
+                    </v-icon>
+                  </v-hover>
+                </a>
+              </v-col>
+              <v-col class="col-4 col-md-2 d-flex justify-center">
+                <a href="https://www.linkedin.com/in/shandy-gunawan/">
+                  <v-hover v-slot="{ hover}">
+                    <v-icon 
+                      size="75"
+                      :color="hover ? 'teal' : 'white'"
+                    >
+                      mdi-linkedin
+                    </v-icon>
+                  </v-hover>
+                </a>
+              </v-col>
+            </v-row>
+
+            <v-row class="my-10 d-flex justify-center">
+              <v-col class="col-12 col-md-6">
+                <v-card color="#BBDEFB">
+                  <v-card-title class="font-comfortaa">Send me a message!</v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <v-col class="col-12 col-md-6">
+                        <v-text-field
+                          v-model="message.name"
+                          label="Name"
+                          placeholder="Something cool, I guess..."
+                          color="teal"
+                          class="font-comfortaa"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col class="col-12 col-md-6">
+                        <v-text-field
+                          v-model="message.email"
+                          label="Email"
+                          placeholder="No, I won't spam you"
+                          color="teal"
+                          class="font-comfortaa"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <div class="v-col col-12">
+                        <v-textarea
+                          v-model="message.message"
+                          auto-grow
+                          label="Message"
+                          rows="4"
+                          row-height="30"
+                          placeholder="What's on your mind?"
+                          color="teal"
+                          class="font-comfortaa"
+                        ></v-textarea>
+                      </div>
+                    </v-row>
+                  </v-card-text>
+
+                  <v-card-action class="pa-3 d-flex justify-end">
+                    <v-btn dark depressed color="teal" @click="sendMessage">Send!</v-btn>
+                  </v-card-action>
+                </v-card>
+              </v-col>
+            </v-row>
+
           </v-card-text>
 
         </v-card>
@@ -484,11 +619,21 @@ Group's abilities including shared account, set incoming events, ease of payment
 HerB is developed with the goal to improve people's awareness of their heart condition and start to live their life healthier. HerB is created using NodeMCU as the detector, Android as the mobile application, and Firebase as the real time database.
           `
         }
-      ]
+      ],
+
+      message: {
+        name: "",
+        email: "",
+        message: ""
+      }
 
     }
   },
   methods: {
+    sendMessage() {
+      alert("Message sent!");
+    },
+
     getCurrentAge() {
       var today = new Date();
       var birthDate = new Date("1998-09-21");
@@ -539,6 +684,11 @@ HerB is developed with the goal to improve people's awareness of their heart con
 .font-comfortaa {
   font-family: 'Comfortaa';
 }
+
+a {
+  text-decoration: none;
+}
+
 
 
 /* Vue Typer */
