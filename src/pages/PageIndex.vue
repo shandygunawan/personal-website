@@ -1,10 +1,25 @@
 <template>
-  <div class="background">
-    <div class="dark-layer">
-      <div class="d-flex flex-column justify-center align-center" style="height: 100vh; overflow: hidden;">
-        
-        <v-img src="@/assets/images/avatar.jpg" alt="Shandy" max-width="300" max-height="300" style="border-radius: 50%"></v-img>
+  <div style="background-color: black;">
+    <vue-particles
+      color="#009688"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#dedede"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="1"
+      :linesDistance="150"
+      :moveSpeed="3"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
 
+    <div class="content d-flex flex-column justify-center align-center">
+      <v-img src="@/assets/images/avatar.jpg" alt="Shandy" max-width="300" max-height="300" style="border-radius: 50%"></v-img>
         <v-container>
           <v-row>
             <v-col class="col-12 text-center">
@@ -26,8 +41,6 @@
             </v-col>
           </v-row>
         </v-container>
-
-      </div>
     </div>
   </div>
 </template>
@@ -66,5 +79,23 @@ a {
   font-size: 2rem;
   color: gray;
 }
+
+.content {
+  position: absolute;
+  text-align: center;
+}
+
+#particles-js {
+  height: 100vh;
+}
+
+
+.content {
+  position: absolute;
+  text-align: center;
+  top: 20vh;
+  width: 100%;
+}
+
 
 </style>

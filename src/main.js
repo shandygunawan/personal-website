@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 import vuetify from './plugins/vuetify';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import VueParticles from 'vue-particles';
 
 // Local
 import App from './App.vue';
@@ -15,6 +16,7 @@ Vue.config.productionTip = false
 
 
 Vue.use(VueRouter);
+Vue.use(VueParticles);
 
 AOS.init();
 
