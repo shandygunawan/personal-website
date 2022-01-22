@@ -11,7 +11,7 @@
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Resume</v-toolbar-title>
+      <v-toolbar-title>{{ toolbar_title }}</v-toolbar-title>
 
     </v-app-bar>
 
@@ -70,7 +70,7 @@
       <!-- Content -->
       <div 
         id="content" 
-        style="width: 100%; height: 100%; background-color: #9ed2a1"
+        style="width: 100%; height: 100%;"
         class="d-flex flex-column"
       >
         <!-- Profile -->
@@ -82,7 +82,7 @@
           v-intersect="{
             handler: updateNavDrawerOnIntersect,
             options: {
-              threshold: [0, 0.5, 1]
+              threshold: [0.5, 1]
             }
           }"
         >
@@ -132,22 +132,23 @@
           v-intersect="{
             handler: updateNavDrawerOnIntersect,
             options: {
-              threshold: [0, 0.5, 1]
+              threshold: [0, 0.25, 0.5, 1]
             }
           }"
-          class="mt-5"
+          class="pt-5"
           style="background-color: #9ed2a1"
           elevation="0"
-          data-aos="fade-left"
         >
-          <v-card-title>
+          <v-card-title :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-center': ''">
             <h1>
               <vue-typer
                 text="Experiences"
-                :repeat="0"
+                :repeat='Infinity'
                 :type-delay="40"
                 :pre-type-delay="20"
                 caret-animation='phase'
+                data-aos="fade-right"
+                class="font-comfortaa"
               ></vue-typer>
             </h1>
           </v-card-title>
@@ -163,10 +164,12 @@
                 :color="exp.color"
                 :icon="exp.icon"
                 fill-dot
+                data-aos="fade-down"
               >
                 <v-card
                   :color="exp.color"
                   dark
+                  data-aos="fade-down"
                 >
                   <v-card-title>
                     <div style="display: inline-block; overflow-wrap: break-word;">
@@ -174,10 +177,14 @@
                     </div>
                   </v-card-title>
 
-                  <v-card-text class="">
-                    <p style="white-space: pre-line;">
-                      {{ exp.description }}
-                    </p>
+                  <v-card-subtitle>
+                    {{ exp.role }}
+                  </v-card-subtitle>
+
+                  <v-card-text 
+                    v-html="exp.description"
+                    class="white--text"
+                    >
                   </v-card-text>
 
                 </v-card>
@@ -188,6 +195,96 @@
           </v-card-text>
 
         </v-card>
+
+        <v-divider></v-divider>
+
+        <!-- Skills -->
+        <v-card
+          id="skills"
+          ref="skills"
+          v-intersect="{
+            handler: updateNavDrawerOnIntersect,
+            options: {
+              threshold: [0.5, 1]
+            }
+          }"
+          class="pt-13"
+          style="background-color: #9ed2a1"
+          elevation="0"
+        >
+          <v-card-title :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-center': ''">
+            <h1>
+              <vue-typer
+                text="Skills"
+                :repeat='Infinity'
+                :type-delay="40"
+                :pre-type-delay="20"
+                caret-animation='phase'
+                data-aos="fade-right"
+                class="font-comfortaa"
+              ></vue-typer>
+            </h1>
+          </v-card-title>
+
+          <v-card-text class="mt-5">
+            <v-row 
+              class="d-flex justify-center"
+              v-for="skill in skills"
+              :key="skill.title"
+            >
+              <v-col class="col-12 col-md-6">
+                <SkillProgressBarCard 
+                  :skill="skill"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <v-divider></v-divider>
+
+        <!-- Awards -->
+        <v-card
+          id="awards"
+          ref="awards"
+          v-intersect="{
+            handler: updateNavDrawerOnIntersect,
+            options: {
+              threshold: [0.5, 1]
+            }
+          }"
+          class="pt-13"
+          style="background-color: #9ed2a1"
+          elevation="0"
+        >
+          <v-card-title :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-center': ''">
+            <h1>
+              <vue-typer
+                text="Awards"
+                :repeat='Infinity'
+                :type-delay="40"
+                :pre-type-delay="20"
+                caret-animation='phase'
+                data-aos="fade-right"
+                class="font-comfortaa"
+              ></vue-typer>
+            </h1>
+          </v-card-title>
+
+          <v-card-text class="mt-4">
+            <v-row>
+              <v-col 
+                class="col-12 col-md-6"
+                v-for="award in awards"
+                :key="award.competition"
+              >
+                <AwardHoverCard :award="award" />
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+        </v-card>
+
       </div>
     </div>
   </div>
@@ -199,9 +296,14 @@
 
 import { VueTyper } from 'vue-typer';
 
+import SkillProgressBarCard from '@/components/SkillProgressBarCard.vue';
+import AwardHoverCard from '@/components/AwardHoverCard.vue';
+
 export default {
   components: {
-    VueTyper
+    VueTyper,
+    SkillProgressBarCard,
+    AwardHoverCard
   },
   created() {
     if(this.$vuetify.breakpoint.mdAndUp) {
@@ -211,6 +313,7 @@ export default {
   data() {
     return {
       drawer: false,
+      toolbar_title: '',
       sidebar_menus: [
         { title: 'Profile', icon: 'mdi-account', href: '#profile', isIntersecting: false },
         { title: 'Experiences', icon: 'mdi-briefcase-variant', href: '#experiences', isIntersecting: false },
@@ -244,8 +347,7 @@ export default {
           duration: "Aug 2016 - Apr 2021",
           icon: "mdi-school",
           color: "blue darken-2",
-          description: `Learn a lot of Computer Science fundamentals, 
-such as Algorithm and Data Structures, Object-Oriented Programming, Software Engineering, etc.`
+          description:'<p>Learn a lot of Computer Science fundamentals, such as Algorithm and Data Structures, Object-Oriented Programming, Software Engineering, etc.</p>'
         },
         {
           company: "Qontak", 
@@ -253,12 +355,13 @@ such as Algorithm and Data Structures, Object-Oriented Programming, Software Eng
           duration: "May 2019 - Aug 2019",
           icon: "mdi-android",
           color: "blue darken-1",
-          description: `Working on company's mobile application using Kotlin: 
-- Create and update existing User Interfaces (XML and dynamic UIs),
-- Add filters for contacts list and products list,
-- Implement voice recording and playback capability when adding and editing notes,
-- Integrate CRM with Qiscus Multichannel (Server-side, non-Mobile).
-`
+          description:'<p>Working on company\'s mobile application using Kotlin:</p>' + 
+                      '<ul>' +
+                        '<li>Create and update existing User Interfaces (XML and dynamic UIs)</li>' +
+                        '<li>Add filters for contacts list and products list</li>' +
+                        '<li>Implement voice recording and playback capability when adding and editing notes</li>' +
+                        '<li>Integrate CRM with Qiscus Multichannel (Server-side, non-Mobile)</li>' +
+                      '</ul>'
         },
         {
           company: "Learncy", 
@@ -266,11 +369,12 @@ such as Algorithm and Data Structures, Object-Oriented Programming, Software Eng
           duration:"Dec 2019 - Jan 2020",
           icon: "mdi-webpack",
           color: "teal darken-1",
-          description:`Working on company's various features:
-- Creating history for CyCash transactions,
-- Integrating CyCash top up with Midtrans Payment Gateway,
-- Creating "Rasionalisasi" feature (Full Stack).
-          `
+          description:'<p>Working on company\'s various features:</p>' + 
+                      '<ul>' +
+                        '<li>Creating history for CyCash transactions</li>' +
+                        '<li>Integrating CyCash top up with Midtrans Payment Gateway</li>' +
+                        '<li>Creating "Rasionalisasi" feature (Full Stack)</li>' +
+                      '</ul>'
         },
         {
           company: "BCA", 
@@ -278,11 +382,12 @@ such as Algorithm and Data Structures, Object-Oriented Programming, Software Eng
           duration:"Mar 2021 - Aug 2021",
           icon: "mdi-pipe-disconnected",
           color: "blue darken-4",
-          description:`Helping delivery and operations:
-- Building code with Jenkins,
-- Developing pipeline scripts,
-- Delivering code to UAT stage.
-          `
+          description:'<p>Helping delivery and operations:</p>' + 
+                      '<ul>' +
+                        '<li>Building code with Jenkins</li>' +
+                        '<li>Developing pipeline scripts</li>' +
+                        '<li>Delivering code to UAT stage</li>' +
+                      '</ul>'
         },
         {
           company: "BCA",
@@ -290,13 +395,95 @@ such as Algorithm and Data Structures, Object-Oriented Programming, Software Eng
           duration: "Sep 2021 - Now",
           icon: 'mdi-school',
           color: "blue darken-4",
-          description: `- Learning theory of finances and banking
-- Taking Web Programming specialization (Java: Struts, Spring)
-- On The Job Training with BCA's Credit Card IT Team
-- Final Project Collaboration with fellow BCA IT Trainee
+          description:'<ul>' + 
+                      '<li>Learning theory of finances and banking</li>' +
+                      '<li>Taking Web Programming specialization (Java: Struts, Spring)</li>' +
+                      '<li>On The Job Training with BCA\'s Credit Card IT Team</li>' +
+                      '<li>Final Project Collaboration with fellow BCA IT Trainee</li>' +
+                    '</ul>'
+        }
+      ],
+
+      skills: {
+        programming_languages: {
+          title: "Preferred Programming Languages",
+          color: "teal",
+          subskills: [
+            { name: "Python", value: 100, image: require("../assets/images/logo_python.svg") },
+            { name: "JavaScript", value: 100, image: require("../assets/images/logo_javascript.svg") },
+            { name: "TypeScript", value: 90, },
+            { name: "Java", value: 90, image: require("../assets/images/logo_java.svg") },
+            { name: "Kotlin", value: 85, image: require("../assets/images/logo_kotlin.svg") },
+            { name: "C++", value: 80 },
+            { name: "C#", value: 75 },
+            { name: "Ruby", value: 65 }
+          ],
+        },
+        
+        frontend: {
+          title: "Front-End",
+          color: "blue lighten-1",
+          subskills:  [
+            { name: "Vue.js", value: 100 },
+            { name: "Angular", value: 65 }
+          ],
+        },
+
+        css: {
+          title: "CSS",
+          color: "red darken-3",
+          subskills: [
+            { name: "Bootstrap", value: 100 },
+            { name: "Vuetify", value: 100 },
+            { name: "Materialize", value: 95 },
+            { name: "Tailwind", value: 50 }
+          ]
+        },
+
+        backend: {
+          title: "Back-End",
+          color: "blue-grey",
+          subskills: [
+            { name: "Flask", value: 100 },
+            { name: "Django", value: 90 },
+            { name: "Spring Boot", value: 85 },
+            { name: "AdonisJS", value: 80 },
+            { name: "Ruby on Rails", value: 60 }
+          ],
+        },
+
+        database: {
+          title: "Database",
+          subskills: [
+            { name: "Postgres", value: 100 },
+            { name: "SQLite", value: 90 },
+            { name: "MongoDB", value: 80 }
+          ]
+        }
+      },
+
+      awards: [
+        {
+          image: require("../assets/images/awards_jenius.jpg"),
+          competition: "Jenius Hackathon 2019",
+          result: "National Top 7",
+          date: "Feb 2019",
+          alt: "Jenius Hackathon 2019 - National Top 7",
+          description: `Developed a group banking product called CashTroops.
+CashTroops is projected to be an extension feature of Jenius' already existing mobile app and offers multiple Jenius users' account to be united into one or more groups.
+Group's abilities including shared account, set incoming events, ease of payments (QR), and transparency. CashTroops is developed with the goal to ease an organization or best friends management of money.
+          `
+        },
+        {
+          image: require("../assets/images/awards_telestra.jpg"),
+          competition: "Telestra IoT Cloud Computing Competition",
+          result: "1st Place",
+          date: "Nov 2018",
+          alt: "Telestra IoT Cloud Computing Competition - 1st Place",
+          description: `Developed an IoT heartbeat detector called HerB.
+HerB is developed with the goal to improve people's awareness of their heart condition and start to live their life healthier. HerB is created using NodeMCU as the detector, Android as the mobile application, and Firebase as the real time database.
           `
         }
-
       ]
 
     }
@@ -314,7 +501,34 @@ such as Algorithm and Data Structures, Object-Oriented Programming, Software Eng
     },
     updateNavDrawerOnIntersect(entries) {
       var idx_menu = this.sidebar_menus.findIndex(item => item.title.toLowerCase() === entries[0].target.id);
+      // console.log(entries[0].target.id + " " + entries[0].isIntersecting + " " + entries[0].intersectionRatio);
       this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.5;
+      // if(entries[0].target.id === "experiences" && entries[0].intersectionRatio > 0) {
+      //   this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio > 0;
+      //   this.toolbar_title = "Experiences";
+      // }
+      // else {
+      //   this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.5;
+      //   if(this.sidebar_menus[idx_menu].isIntersecting) {
+      //     this.toolbar_title = this.sidebar_menus[idx_menu].title;
+      //   }
+      // }
+
+    },
+
+    getSkillLevel(value) {
+      if(value >= 90) {
+        return "Advanced"
+      }
+      else if(value >= 75) {
+        return "Intermediate"
+      }
+      else if(value >= 60) {
+        return "Familiar"
+      }
+      else {
+        return "Beginner"
+      }
     }
   }
 }
