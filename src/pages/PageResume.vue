@@ -1,20 +1,5 @@
 <template>
   <div>
-    <v-app-bar
-      v-if="$vuetify.breakpoint.mdAndDown"
-      app
-      dark
-      flat
-      dense
-      color="teal"
-      width="100%"
-    >
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>{{ toolbar_title }}</v-toolbar-title>
-
-    </v-app-bar>
-
     <div class="d-flex">
       <!-- Sidebar -->
       <v-card
@@ -73,6 +58,19 @@
         style="width: 100%; height: 100%;"
         class="d-flex flex-column"
       >
+        <v-btn
+          v-if="$vuetify.breakpoint.mdAndDown"
+          @click="drawer = !drawer"
+          fab
+          bottom
+          right
+          color="teal"
+          dark
+          fixed
+        >
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
+
         <!-- Profile -->
         <v-card
           id="profile"
@@ -135,8 +133,8 @@
               threshold: [0, 0.25, 0.5, 1]
             }
           }"
-          class="pt-5"
-          style="background-color: #9ed2a1"
+          class="py-8"
+          color="#9ed2a1"
           elevation="0"
         >
           <v-card-title class="d-flex justify-center">
@@ -208,9 +206,10 @@
               threshold: [0.5, 1]
             }
           }"
-          class="pt-13"
-          style="background-color: #9ed2a1"
+          class="py-8"
+        
           elevation="0"
+          color="green lighten-2"
         >
           <v-card-title class="d-flex justify-center">
             <h1>
@@ -253,8 +252,9 @@
               threshold: [0.5, 1]
             }
           }"
-          class="pt-13"
-          style="background-color: #9ed2a1;"
+          class="py-8"
+          style="min-height: 100vh;"
+          color="teal lighten-4"
           elevation="0"
         >
           <v-card-title class="d-flex justify-center">
@@ -272,15 +272,147 @@
           </v-card-title>
 
           <v-card-text class="mt-4">
-            <v-row>
+            <v-row class="d-flex justify-center">
               <v-col 
-                class="col-12 col-md-6"
+                class="col-12 col-md-7"
                 v-for="award in awards"
                 :key="award.competition"
               >
                 <AwardHoverCard :award="award" />
               </v-col>
             </v-row>
+          </v-card-text>
+
+        </v-card>
+
+        <v-divider></v-divider>
+
+        <!-- Projects -->
+        <v-card
+          id="projects"
+          ref="projects"
+          v-intersect="{
+            handler: updateNavDrawerOnIntersect,
+            options: {
+              threshold: [0.5, 1]
+            }
+          }"
+          class="py-8"
+          style="min-height: 100vh"
+          elevation="0"
+          color="cyan lighten-3"
+        >
+          <v-card-title class="d-flex justify-center">
+            <h1>
+              <vue-typer
+                text="Projects"
+                :repeat='Infinity'
+                :type-delay="40"
+                :pre-type-delay="20"
+                caret-animation='phase'
+                data-aos="fade-right"
+                class="font-comfortaa"
+              ></vue-typer>
+            </h1>
+          </v-card-title>
+
+          <v-card-text class="mt-10">
+            <v-row>
+              <v-col class="col-12">
+                <h2>Choose one or more categories to filter!</h2>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="col-12 col-md-6">
+                <v-autocomplete
+                  v-model="projects.categories_selected"
+                  :items="projects.categories"
+                  dense
+                  chips
+                  small-chips
+                  label="Categories"
+                  multiple
+                  @change="updateProjectsFiltered"
+                ></v-autocomplete>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col class="col-12">
+                <h2>and have some fun!</h2>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="col-12">
+                <v-btn small color="primary" depressed @click="shuffleProjectsFiltered" class="mr-2">shuffle!</v-btn>
+                <v-btn small color="secondary" depressed @click="pickRandomColorCardProjects">Colorize!</v-btn>
+              </v-col>
+            </v-row>
+
+            <transition-group name="project-list" tag="div" class="row">
+                <v-col 
+                  class="col-12 col-md-6 col-lg-4"
+                  v-for="project in projects.filtered"
+                  :key="project.name"
+                >
+                  <v-card 
+                    elevation="0"
+                    :color="projects.color_selected"
+                  >
+                    <v-card-title>{{ project.name }}</v-card-title>
+                    <v-card-subtitle>Category: {{ project.category }}</v-card-subtitle>
+                    <v-card-text>
+                      <v-row>
+                        <v-col class="col-12">
+                          <p>{{ project.description }}</p>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col class="col-4">
+                          <b>Language: </b>
+                        </v-col>
+                        <v-col class="col-8">
+                          : {{ project.languages }}
+                        </v-col>    
+                      </v-row>
+                      <v-row>
+                        <v-col class="col-4">
+                          <b>Tools</b>
+                        </v-col>
+                        <v-col class="col-8">
+                          : {{ project.tools }}
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+
+                    <v-card-actions class="d-flex justify-end">
+                      <a :href="project.url_github">
+                        <v-btn 
+                          v-if="project.url_github !== ''"
+                          icon
+                          color="secondary"
+                          x-large
+                        >
+                          <v-icon>mdi-github</v-icon>
+                        </v-btn>
+                      </a>
+
+                      <a :href="project.url_external">
+                        <v-btn 
+                          v-if="project.url_external !== ''"
+                          icon
+                          color="secondary"
+                          x-large
+                        >
+                          <v-icon>mdi-link-variant</v-icon>
+                        </v-btn>
+                      </a>
+                    </v-card-actions>
+                  </v-card>
+
+                </v-col>
+            </transition-group>
+
           </v-card-text>
 
         </v-card>
@@ -378,7 +510,6 @@
                         <v-text-field
                           v-model="message.name"
                           label="Name"
-                          placeholder="Something cool, I guess..."
                           color="teal"
                           class="font-comfortaa"
                         ></v-text-field>
@@ -387,7 +518,6 @@
                         <v-text-field
                           v-model="message.email"
                           label="Email"
-                          placeholder="No, I won't spam you"
                           color="teal"
                           class="font-comfortaa"
                         ></v-text-field>
@@ -401,7 +531,6 @@
                           label="Message"
                           rows="4"
                           row-height="30"
-                          placeholder="What's on your mind?"
                           color="teal"
                           class="font-comfortaa"
                         ></v-textarea>
@@ -430,6 +559,8 @@
 //TODO: https://stackoverflow.com/questions/59614413/update-selected-item-in-vuetify-navigation-drawer-while-scrolling-vertical
 
 import { VueTyper } from 'vue-typer';
+
+// Firebase
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import firebaseApp from '../firebaseInit.js';
 
@@ -437,6 +568,8 @@ import SkillProgressBarCard from '@/components/SkillProgressBarCard.vue';
 import AwardHoverCard from '@/components/AwardHoverCard.vue';
 
 import utils from '@/assets/js/utils.js';
+
+var _ = require('lodash');
 
 export default {
   components: {
@@ -455,12 +588,12 @@ export default {
     return {
       drawer: false,
       firebase_firestore: null,
-      toolbar_title: '',
       sidebar_menus: [
         { title: 'Profile', icon: 'mdi-account', href: '#profile', isIntersecting: false },
         { title: 'Experiences', icon: 'mdi-briefcase-variant', href: '#experiences', isIntersecting: false },
         { title: 'Skills', icon: 'mdi-code-braces-box', href: '#skills', isIntersecting: false },
         { title: 'Awards', icon: 'mdi-medal', href: '#awards', isIntersecting: false },
+        { title: 'Projects', icon: 'mdi-apps', href: "#projects", isIntersecting: false },
         { title: 'Contact', icon: 'mdi-email', href: '#contact', isIntersecting: false },
       ],
 
@@ -548,7 +681,7 @@ export default {
 
       skills: {
         programming_languages: {
-          title: "Preferred Programming Languages",
+          title: "Programming Languages",
           color: "teal",
           subskills: [
             { name: "Python", value: 100, image: require("../assets/images/logo_python.svg") },
@@ -630,7 +763,11 @@ HerB is developed with the goal to improve people's awareness of their heart con
 
       projects: {
         all: [],
-        filtered: []
+        filtered: [],
+        categories: [],
+        categories_selected: [],
+        colors: ['white', 'grey lighten-3', 'teal lighten-3', 'light-blue lighten-3', 'yellow lighten-3', 'orange lighten-3', 'purple lighten-3', 'lime lighten-3', 'cyan lighten-3', 'indigo lighten-3'],
+        color_selected: 'indigo lighten-3'
       },
 
       message: {
@@ -659,35 +796,44 @@ HerB is developed with the goal to improve people's awareness of their heart con
       const querySnapshot = await getDocs(collection(this.firebase_firestore, "projects"));
       querySnapshot.forEach( (project) => {
         this.projects.all.push(project.data());
+        this.projects.filtered.push(project.data());
       });
+
+      for(const project of this.projects.all) {
+        if(this.projects.categories.includes(project.category) == false) {
+          this.projects.categories.push(project.category);
+        }
+      }
     },
 
     sendMessage() {
       alert("Message sent!");
     },
 
+
+    // EVENTS
+    updateProjectsFiltered() {
+      if(this.projects.categories_selected.length === 0) {
+        this.projects.filtered = this.projects.all;
+      }
+      else {
+        this.projects.filtered = this.projects.all.filter( (project) => {
+          return this.projects.categories_selected.includes(project.category);
+        });
+      }
+    },
+    shuffleProjectsFiltered() {
+      this.projects.filtered = _.shuffle(this.projects.filtered);
+    },
+    pickRandomColorCardProjects() {
+      this.projects.color_selected = this.projects.colors[Math.floor(Math.random() * this.projects.colors.length)];
+    },
+
     //
-    // MESSAGES
+    // UTILS
     //
-    
     getCurrentAge() {
       return utils.getAge("1998-09-21");
-    },
-    updateNavDrawerOnIntersect(entries) {
-      var idx_menu = this.sidebar_menus.findIndex(item => item.title.toLowerCase() === entries[0].target.id);
-      // console.log(entries[0].target.id + " " + entries[0].isIntersecting + " " + entries[0].intersectionRatio);
-      this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.5;
-      // if(entries[0].target.id === "experiences" && entries[0].intersectionRatio > 0) {
-      //   this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio > 0;
-      //   this.toolbar_title = "Experiences";
-      // }
-      // else {
-      //   this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.5;
-      //   if(this.sidebar_menus[idx_menu].isIntersecting) {
-      //     this.toolbar_title = this.sidebar_menus[idx_menu].title;
-      //   }
-      // }
-
     },
 
     getSkillLevel(value) {
@@ -703,6 +849,18 @@ HerB is developed with the goal to improve people's awareness of their heart con
       else {
         return "Beginner"
       }
+    },
+
+    //
+    // NAV DRAWER
+    //
+    updateNavDrawerOnIntersect(entries) {
+      // Responsive nav drawer on scroll seems only working on desktop, I don't know why
+      var idx_menu = this.sidebar_menus.findIndex(item => item.title.toLowerCase() === entries[0].target.id);
+      if(this.$vuetify.breakpoint.lgAndUp) {
+        this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.5;
+      }
+
     }
   }
 }
@@ -757,6 +915,36 @@ a {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   color:var(--blue-100);
+}
+
+
+.project-list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.project-list-enter-active {
+  transition: all 0.7s ease-out;
+}
+
+.project-list-enter-to,
+.project-list-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.project-list-leave-active {
+  transition: all 0.7s ease-in;
+  position: absolute;
+}
+
+.project-list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.project-list-move {
+  transition: transform 1s ease;
 }
 
 </style>

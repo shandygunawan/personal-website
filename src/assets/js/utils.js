@@ -9,7 +9,8 @@ const utils = {
         age--;
     }
     return age;
-  }
+  },
+  
 }
 
 export default utils;
