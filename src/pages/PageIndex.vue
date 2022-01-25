@@ -23,8 +23,13 @@
         <v-container>
           <v-row>
             <v-col class="col-12 text-center">
-              <span class="title-text mt-4 text-center">
-                Hi! I'm Shandy
+              <span class="title-text mt-4 text-center grey--text">
+                Hi! I'm Shandy,
+                <br>
+                <transition name="fade" mode="out-in">
+                  <span key="welcome1" v-if="welcome_change">{{ welcome_current }}!</span>
+                  <span key="welcome2" v-else>{{ welcome_current }}!</span>
+                </transition>
               </span>
             </v-col>
           </v-row>
@@ -32,11 +37,6 @@
             <v-col class="col-12 col-sm-2 pa-lg-6 text-center">
               <router-link :to="{ name: 'resume' }">
                 <v-btn outlined large color="primary">Resume</v-btn>
-              </router-link>
-            </v-col>
-            <v-col class="col-12 col-sm-2 pa-lg-6 text-center">
-              <router-link to="">
-                <v-btn outlined large color="primary">Projects</v-btn>
               </router-link>
             </v-col>
           </v-row>
@@ -50,8 +50,36 @@
 export default {
   data() {
     return {
-      
+      welcome_languages: [
+        "Welcome", // English
+        "Selamat datang", // Indonesian
+        "Wilujeng Sumping", // Sundanese
+        "Sugeng Rawuh", // Javanese
+        "Welkom", // Dutch
+        "Bienvenue", // French
+        "Bienvenido", // Spanish
+        "Willkommen", // German
+        "Bem-vindo", // Portuguese
+        "ようこそ", // Japanese
+        "환영합니다" // Korean
+      ],
+      welcome_current: "Welcome",
+      welcome_index: 1,
+      welcome_change: true
     }
+  },
+  created() {
+    setInterval(() => {
+      this.welcome_current = this.welcome_languages[this.welcome_index];
+      
+      if(this.welcome_index >= this.welcome_languages.length-1) {
+        this.welcome_index = 0;
+      } else {
+        this.welcome_index++;
+      }
+
+      this.welcome_change = !this.welcome_change;
+    }, 3000);
   }
 }
 </script>
@@ -74,10 +102,9 @@ a {
 }
 
 .title-text {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Comfortaa';
   font-weight: 500;
   font-size: 2rem;
-  color: gray;
 }
 
 .content {
@@ -93,9 +120,31 @@ a {
 .content {
   position: absolute;
   text-align: center;
-  top: 20vh;
-  width: 100%;
+  top: 15vh;
+  width: 100%; 
 }
 
+
+/* ANIMATIONS */
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: all 1.2s ease-out;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-active {
+  transition: all 1.2s ease-in;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
 
 </style>
