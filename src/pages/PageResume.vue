@@ -409,9 +409,9 @@
                     </v-row>
                   </v-card-text>
 
-                  <v-card-action class="pa-3 d-flex justify-end">
+                  <v-card-actions class="pa-3 d-flex justify-end">
                     <v-btn dark depressed color="teal" @click="sendMessage">Send!</v-btn>
-                  </v-card-action>
+                  </v-card-actions>
                 </v-card>
               </v-col>
             </v-row>
@@ -430,9 +430,13 @@
 //TODO: https://stackoverflow.com/questions/59614413/update-selected-item-in-vuetify-navigation-drawer-while-scrolling-vertical
 
 import { VueTyper } from 'vue-typer';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import firebaseApp from '../firebaseInit.js';
 
 import SkillProgressBarCard from '@/components/SkillProgressBarCard.vue';
 import AwardHoverCard from '@/components/AwardHoverCard.vue';
+
+import utils from '@/assets/js/utils.js';
 
 export default {
   components: {
@@ -444,10 +448,13 @@ export default {
     if(this.$vuetify.breakpoint.mdAndUp) {
       this.drawer = true;
     }
+
+    this.getProjects();
   },
   data() {
     return {
       drawer: false,
+      firebase_firestore: null,
       toolbar_title: '',
       sidebar_menus: [
         { title: 'Profile', icon: 'mdi-account', href: '#profile', isIntersecting: false },
@@ -621,6 +628,11 @@ HerB is developed with the goal to improve people's awareness of their heart con
         }
       ],
 
+      projects: {
+        all: [],
+        filtered: []
+      },
+
       message: {
         name: "",
         email: "",
@@ -629,20 +641,37 @@ HerB is developed with the goal to improve people's awareness of their heart con
 
     }
   },
+
   methods: {
+    //
+    // FIREBASE
+    //
+    initializeFirestore() {
+      this.firebase_firestore = getFirestore(firebaseApp);
+    },
+
+    async getProjects() {
+
+      if(this.firebase_firestore == null) {
+        this.initializeFirestore();
+      }
+
+      const querySnapshot = await getDocs(collection(this.firebase_firestore, "projects"));
+      querySnapshot.forEach( (project) => {
+        this.projects.all.push(project.data());
+      });
+    },
+
     sendMessage() {
       alert("Message sent!");
     },
 
+    //
+    // MESSAGES
+    //
+    
     getCurrentAge() {
-      var today = new Date();
-      var birthDate = new Date("1998-09-21");
-      var age = today.getFullYear() - birthDate.getFullYear();
-      var m = today.getMonth() - birthDate.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-          age--;
-      }
-      return age;
+      return utils.getAge("1998-09-21");
     },
     updateNavDrawerOnIntersect(entries) {
       var idx_menu = this.sidebar_menus.findIndex(item => item.title.toLowerCase() === entries[0].target.id);
