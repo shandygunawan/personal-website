@@ -26,10 +26,20 @@
               <span class="title-text mt-4 text-center grey--text">
                 Hi! I'm Shandy,
                 <br>
-                <transition name="fade" mode="out-in">
-                  <span key="welcome1" v-if="welcome_change">{{ welcome_current }}!</span>
-                  <span key="welcome2" v-else>{{ welcome_current }}!</span>
-                </transition>
+                <vue-typer
+                  id="vuetyper_welcome_languages"
+                  :text="welcome_languages"
+                  :repeat="Infinity"
+                  :shuffle="false"
+                  initial-action="typing"
+                  :pre-type-delay="70"
+                  :type-delay="70"
+                  :pre-erase-delay="2000"
+                  :erase-delay="100"
+                  erase-style="backspace"
+                  :erase-on-complete="false"
+                  caret-animation="blink"
+                ></vue-typer>
               </span>
             </v-col>
           </v-row>
@@ -46,26 +56,27 @@
 </template>
 
 <script>
+import { VueTyper } from 'vue-typer';
 
 export default {
+  components: {
+    VueTyper
+  },
   data() {
     return {
       welcome_languages: [
-        "Welcome", // English
-        "Selamat datang", // Indonesian
-        "Wilujeng Sumping", // Sundanese
-        "Sugeng Rawuh", // Javanese
-        "Welkom", // Dutch
-        "Bienvenue", // French
-        "Bienvenido", // Spanish
-        "Willkommen", // German
-        "Bem-vindo", // Portuguese
-        "ようこそ", // Japanese
-        "환영합니다" // Korean
-      ],
-      welcome_current: "Welcome",
-      welcome_index: 1,
-      welcome_change: true
+        "Welcome!", // English
+        "Selamat datang!", // Indonesian
+        "Wilujeng Sumping!", // Sundanese
+        "Sugeng Rawuh!", // Javanese
+        "Welkom!", // Dutch
+        "Bienvenue!", // French
+        "Bienvenido!", // Spanish
+        "Willkommen!", // German
+        "Bem-vindo!", // Portuguese
+        "ようこそ!", // Japanese
+        "환영합니다!" // Korean
+      ]
     }
   },
   created() {
@@ -124,27 +135,14 @@ a {
   width: 100%; 
 }
 
-
-/* ANIMATIONS */
-.fade-enter-from {
-  opacity: 0;
+/* VueTyper */
+::v-deep #vuetyper_welcome_languages .typed {
+  color: grey !important;
 }
 
-.fade-enter-active {
-  transition: all 1.2s ease-out;
-}
-
-.fade-enter-to,
-.fade-leave-from {
-  opacity: 1;
-}
-
-.fade-leave-active {
-  transition: all 1.2s ease-in;
-}
-
-.fade-leave-to {
-  opacity: 0;
+::v-deep #vuetyper_welcome_languages .custom.caret {
+  width: 2px;
+  background-color: grey !important;
 }
 
 </style>
