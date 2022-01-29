@@ -58,18 +58,20 @@
         style="width: 100%; height: 100%;"
         class="d-flex flex-column"
       >
-        <v-btn
-          v-if="$vuetify.breakpoint.mdAndDown"
-          @click="drawer = !drawer"
-          fab
-          bottom
-          right
-          color="teal"
-          dark
-          fixed
-        >
-          <v-icon>mdi-menu</v-icon>
-        </v-btn>
+        <v-fab-transition>
+          <v-btn
+            v-show="$vuetify.breakpoint.mdAndDown"
+            @click="drawer = !drawer"
+            fab
+            bottom
+            right
+            color="teal"
+            dark
+            fixed
+          >
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </v-fab-transition>
 
         <!-- Profile -->
         <v-card
@@ -94,7 +96,7 @@
           >
             <div
               v-if="$vuetify.breakpoint.smAndUp"
-              class="font-comfortaa text-center"
+              class="font-fabrikat-normal-thin text-center"
             >
               <h1>
                 <vue-typer 
@@ -133,21 +135,12 @@
               threshold: [0, 0.25, 0.5, 1]
             }
           }"
-          class="py-8"
-          color="#9ed2a1"
+          class="content-background-color"
           elevation="0"
         >
-          <v-card-title class="d-flex justify-center">
-            <h1>
-              <vue-typer
-                text="Experiences"
-                :repeat='Infinity'
-                :type-delay="40"
-                :pre-type-delay="20"
-                caret-animation='phase'
-                data-aos="fade-right"
-                class="font-comfortaa"
-              ></vue-typer>
+          <v-card-title class="d-flex justify-center pa-10" style="background-color: teal;">
+            <h1 class="white--text font-fabrikat-normal-thin">
+              EXPERIENCES
             </h1>
           </v-card-title>
 
@@ -194,7 +187,6 @@
 
         </v-card>
 
-        <v-divider></v-divider>
 
         <!-- Skills -->
         <v-card
@@ -206,22 +198,12 @@
               threshold: [0.5, 1]
             }
           }"
-          class="py-8"
-        
           elevation="0"
-          color="green lighten-2"
+          class="content-background-color"
         >
-          <v-card-title class="d-flex justify-center">
-            <h1>
-              <vue-typer
-                text="Skills"
-                :repeat='Infinity'
-                :type-delay="40"
-                :pre-type-delay="20"
-                caret-animation='phase'
-                data-aos="fade-right"
-                class="font-comfortaa"
-              ></vue-typer>
+          <v-card-title class="d-flex justify-center pa-10" style="background-color: teal;">
+            <h1 class="white--text font-fabrikat-normal-thin">
+              SKILLS
             </h1>
           </v-card-title>
 
@@ -232,15 +214,13 @@
               :key="skill.title"
             >
               <v-col class="col-12 col-md-6">
-                <SkillProgressBarCard 
+                <CardSkillProgressBar 
                   :skill="skill"
                 />
               </v-col>
             </v-row>
           </v-card-text>
         </v-card>
-
-        <v-divider></v-divider>
 
         <!-- Awards -->
         <v-card
@@ -252,22 +232,13 @@
               threshold: [0.5, 1]
             }
           }"
-          class="py-8"
           style="min-height: 100vh;"
-          color="teal lighten-4"
+          class="content-background-color"
           elevation="0"
         >
-          <v-card-title class="d-flex justify-center">
-            <h1>
-              <vue-typer
-                text="Awards"
-                :repeat='Infinity'
-                :type-delay="40"
-                :pre-type-delay="20"
-                caret-animation='phase'
-                data-aos="fade-right"
-                class="font-comfortaa"
-              ></vue-typer>
+          <v-card-title class="d-flex justify-center pa-8" style="background-color: teal;">
+            <h1 class="white--text font-fabrikat-normal-thin">
+              AWARDS
             </h1>
           </v-card-title>
 
@@ -278,14 +249,12 @@
                 v-for="award in awards"
                 :key="award.competition"
               >
-                <AwardHoverCard :award="award" />
+                <CardAwardHover :award="award" />
               </v-col>
             </v-row>
           </v-card-text>
 
         </v-card>
-
-        <v-divider></v-divider>
 
         <!-- Projects -->
         <v-card
@@ -297,22 +266,13 @@
               threshold: [0.5, 1]
             }
           }"
-          class="py-8"
           style="min-height: 100vh"
           elevation="0"
-          color="cyan lighten-3"
+          class="content-background-color"
         >
-          <v-card-title class="d-flex justify-center">
-            <h1>
-              <vue-typer
-                text="Projects"
-                :repeat='Infinity'
-                :type-delay="40"
-                :pre-type-delay="20"
-                caret-animation='phase'
-                data-aos="fade-right"
-                class="font-comfortaa"
-              ></vue-typer>
+          <v-card-title class="d-flex justify-center pa-8" style="background-color: teal;">
+            <h1 class="white--text font-fabrikat-normal-thin">
+              PROJECTS
             </h1>
           </v-card-title>
 
@@ -433,8 +393,8 @@
         >
 
           <v-card-title class="d-flex justify-center">
-            <h1 class="white--text font-comfortaa">
-              Contact
+            <h1 class="white--text font-fabrikat-normal-thin">
+              CONTACT
             </h1>
           </v-card-title>
 
@@ -442,12 +402,12 @@
             <v-row class="mt-5 d-flex justify-center">
               <v-col class="col-12 d-flex justify-center">
                 
-                <h4 v-if="$vuetify.breakpoint.mdAndDown" class="grey--text text-center">
+                <h4 v-if="$vuetify.breakpoint.mdAndDown" class="grey--text text-center font-fabrikat-normal-thin">
                   “If I had asked people what they wanted, they would have said faster horses. ”
                   <br>
                   - Henry Ford
                 </h4>
-                <h2 v-else class="grey--text text-center">
+                <h2 v-else class="grey--text text-center font-fabrikat-normal-thin">
                   “If I had asked people what they wanted, they would have said faster horses. ”
                   <br>
                   - Henry Ford
@@ -505,37 +465,45 @@
                 <v-card color="#BBDEFB">
                   <v-card-title class="font-comfortaa">Send me a message!</v-card-title>
                   <v-card-text>
-                    <v-row>
-                      <v-col class="col-12 col-md-6">
-                        <v-text-field
-                          v-model="message.name"
-                          label="Name"
-                          color="teal"
-                          class="font-comfortaa"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col class="col-12 col-md-6">
-                        <v-text-field
-                          v-model="message.email"
-                          label="Email"
-                          color="teal"
-                          class="font-comfortaa"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <div class="v-col col-12">
-                        <v-textarea
-                          v-model="message.message"
-                          auto-grow
-                          label="Message"
-                          rows="4"
-                          row-height="30"
-                          color="teal"
-                          class="font-comfortaa"
-                        ></v-textarea>
-                      </div>
-                    </v-row>
+                    <v-form
+                      ref="form"
+                      v-model="message.form"
+                    >
+                      <v-row>
+                        <v-col class="col-12 col-md-6">
+                          <v-text-field
+                            v-model="message.name"
+                            label="Name"
+                            color="teal"
+                            class="font-comfortaa"
+                            :rules="rules.name"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col class="col-12 col-md-6">
+                          <v-text-field
+                            v-model="message.email"
+                            label="Email"
+                            color="teal"
+                            class="font-comfortaa"
+                            :rules="rules.email"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <div class="v-col col-12">
+                          <v-textarea
+                            v-model="message.message"
+                            auto-grow
+                            label="Message"
+                            rows="4"
+                            row-height="30"
+                            color="teal"
+                            class="font-comfortaa"
+                            :rules="rules.message"
+                          ></v-textarea>
+                        </div>
+                      </v-row>
+                    </v-form>
                   </v-card-text>
 
                   <v-card-actions class="pa-3 d-flex justify-end">
@@ -561,11 +529,11 @@
 import { VueTyper } from 'vue-typer';
 
 // Firebase
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import firebaseApp from '../firebaseInit.js';
 
-import SkillProgressBarCard from '@/components/SkillProgressBarCard.vue';
-import AwardHoverCard from '@/components/AwardHoverCard.vue';
+import CardSkillProgressBar from '@/components/resume/CardSkillProgressBar.vue';
+import CardAwardHover from '@/components/resume/CardAwardHover.vue';
 
 import utils from '@/assets/js/utils.js';
 
@@ -574,8 +542,8 @@ var _ = require('lodash');
 export default {
   components: {
     VueTyper,
-    SkillProgressBarCard,
-    AwardHoverCard
+    CardSkillProgressBar,
+    CardAwardHover
   },
   created() {
     if(this.$vuetify.breakpoint.mdAndUp) {
@@ -771,9 +739,23 @@ HerB is developed with the goal to improve people's awareness of their heart con
       },
 
       message: {
+        form: true,
         name: "",
         email: "",
         message: ""
+      },
+
+      rules: {
+        name: [
+          v => !!v || 'Name is required',
+        ],
+        email: [
+          v => !!v || 'Email is required',
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/.test(v) || 'Email must be valid'
+        ],
+        message: [
+          v => !!v || 'Message is required'
+        ]
       }
 
     }
@@ -806,7 +788,29 @@ HerB is developed with the goal to improve people's awareness of their heart con
       }
     },
 
-    sendMessage() {
+    async sendMessage() {
+
+      if(!this.$refs.form.validate()) {
+        alert("Please fill out the form correctly.");
+        return;
+      }
+
+      try {
+        const msg = await addDoc(collection(this.firebase_firestore, "messages"), {
+          name: this.message.name,
+          email: this.message.email,
+          message: this.message.message,
+          datetime: Timestamp.fromDate(new Date())
+        });
+
+        console.log(msg);
+      }
+      catch(error) {
+        console.log(error);
+      }
+
+      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
       alert("Message sent!");
     },
 
@@ -832,6 +836,12 @@ HerB is developed with the goal to improve people's awareness of their heart con
     //
     // UTILS
     //
+    clearMessageForm() {
+      this.message.name = "";
+      this.message.email = "";
+      this.message.message = "";
+    },
+
     getCurrentAge() {
       return utils.getAge("1998-09-21");
     },
@@ -859,6 +869,8 @@ HerB is developed with the goal to improve people's awareness of their heart con
       var idx_menu = this.sidebar_menus.findIndex(item => item.title.toLowerCase() === entries[0].target.id);
       if(this.$vuetify.breakpoint.lgAndUp) {
         this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.5;
+      } else {
+        this.sidebar_menus[idx_menu].isIntersecting = false;
       }
 
     }
@@ -872,10 +884,17 @@ HerB is developed with the goal to improve people's awareness of their heart con
   font-family: 'Comfortaa';
 }
 
+.font-fabrikat-normal-thin {
+  font-family: 'FabrikatNormalThin';
+}
+
 a {
   text-decoration: none;
 }
 
+.content-background-color {
+  background-color: #9ed2a1;
+}
 
 
 /* Vue Typer */
