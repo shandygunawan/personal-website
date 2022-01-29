@@ -521,7 +521,7 @@
 import { VueTyper } from 'vue-typer';
 
 // Firebase
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import firebaseApp from '../firebaseInit.js';
 
 import CardSkillProgressBar from '@/components/resume/CardSkillProgressBar.vue';
@@ -766,7 +766,22 @@ HerB is developed with the goal to improve people's awareness of their heart con
       }
     },
 
-    sendMessage() {
+    async sendMessage() {
+      try {
+        const msg = await addDoc(collection(this.firebase_firestore, "messages"), {
+          name: this.message.name,
+          email: this.message.email,
+          message: this.message.message,
+          datetime: Timestamp.fromDate(new Date())
+        });
+
+        console.log(msg);
+      }
+      catch(error) {
+        console.log(error);
+      }
+
+      this.clearMessageForm();
       alert("Message sent!");
     },
 
@@ -792,6 +807,12 @@ HerB is developed with the goal to improve people's awareness of their heart con
     //
     // UTILS
     //
+    clearMessageForm() {
+      this.message.name = "";
+      this.message.email = "";
+      this.message.message = "";
+    },
+
     getCurrentAge() {
       return utils.getAge("1998-09-21");
     },
