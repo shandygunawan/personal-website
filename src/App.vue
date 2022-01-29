@@ -29,4 +29,9 @@ html{
   src: url('./assets/fonts/Comfortaa-Regular.ttf');
 }
 
+@font-face {
+  font-family: "FabrikatNormalThin";
+  src: url('./assets/fonts/FabrikatNormal-Thin.ttf');
+}
+
 </style>
