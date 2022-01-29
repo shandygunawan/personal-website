@@ -465,37 +465,45 @@
                 <v-card color="#BBDEFB">
                   <v-card-title class="font-comfortaa">Send me a message!</v-card-title>
                   <v-card-text>
-                    <v-row>
-                      <v-col class="col-12 col-md-6">
-                        <v-text-field
-                          v-model="message.name"
-                          label="Name"
-                          color="teal"
-                          class="font-comfortaa"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col class="col-12 col-md-6">
-                        <v-text-field
-                          v-model="message.email"
-                          label="Email"
-                          color="teal"
-                          class="font-comfortaa"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <div class="v-col col-12">
-                        <v-textarea
-                          v-model="message.message"
-                          auto-grow
-                          label="Message"
-                          rows="4"
-                          row-height="30"
-                          color="teal"
-                          class="font-comfortaa"
-                        ></v-textarea>
-                      </div>
-                    </v-row>
+                    <v-form
+                      ref="form"
+                      v-model="message.form"
+                    >
+                      <v-row>
+                        <v-col class="col-12 col-md-6">
+                          <v-text-field
+                            v-model="message.name"
+                            label="Name"
+                            color="teal"
+                            class="font-comfortaa"
+                            :rules="rules.name"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col class="col-12 col-md-6">
+                          <v-text-field
+                            v-model="message.email"
+                            label="Email"
+                            color="teal"
+                            class="font-comfortaa"
+                            :rules="rules.email"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <div class="v-col col-12">
+                          <v-textarea
+                            v-model="message.message"
+                            auto-grow
+                            label="Message"
+                            rows="4"
+                            row-height="30"
+                            color="teal"
+                            class="font-comfortaa"
+                            :rules="rules.message"
+                          ></v-textarea>
+                        </div>
+                      </v-row>
+                    </v-form>
                   </v-card-text>
 
                   <v-card-actions class="pa-3 d-flex justify-end">
@@ -731,9 +739,23 @@ HerB is developed with the goal to improve people's awareness of their heart con
       },
 
       message: {
+        form: true,
         name: "",
         email: "",
         message: ""
+      },
+
+      rules: {
+        name: [
+          v => !!v || 'Name is required',
+        ],
+        email: [
+          v => !!v || 'Email is required',
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/.test(v) || 'Email must be valid'
+        ],
+        message: [
+          v => !!v || 'Message is required'
+        ]
       }
 
     }
@@ -767,6 +789,12 @@ HerB is developed with the goal to improve people's awareness of their heart con
     },
 
     async sendMessage() {
+
+      if(!this.$refs.form.validate()) {
+        alert("Please fill out the form correctly.");
+        return;
+      }
+
       try {
         const msg = await addDoc(collection(this.firebase_firestore, "messages"), {
           name: this.message.name,
@@ -781,7 +809,8 @@ HerB is developed with the goal to improve people's awareness of their heart con
         console.log(error);
       }
 
-      this.clearMessageForm();
+      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
       alert("Message sent!");
     },
 
