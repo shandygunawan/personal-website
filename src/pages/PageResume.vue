@@ -209,12 +209,12 @@
 
           <v-card-text class="mt-5">
             <v-row 
-              class="d-flex justify-center"
+              class="d-flex justify-center ma-10"
               v-for="skill in skills"
               :key="skill.title"
             >
-              <v-col class="col-12 col-md-6">
-                <CardSkillProgressBar 
+              <v-col class="col-12 col-md-10">
+                <CardSkills 
                   :skill="skill"
                 />
               </v-col>
@@ -532,7 +532,7 @@ import { VueTyper } from 'vue-typer';
 import { getFirestore, collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import firebaseApp from '../firebaseInit.js';
 
-import CardSkillProgressBar from '@/components/resume/CardSkillProgressBar.vue';
+import CardSkills from '@/components/resume/CardSkills.vue';
 import CardAwardHover from '@/components/resume/CardAwardHover.vue';
 
 import utils from '@/assets/js/utils.js';
@@ -542,7 +542,7 @@ var _ = require('lodash');
 export default {
   components: {
     VueTyper,
-    CardSkillProgressBar,
+    CardSkills,
     CardAwardHover
   },
   created() {
@@ -650,57 +650,58 @@ export default {
       skills: {
         programming_languages: {
           title: "Programming Languages",
-          color: "teal",
           subskills: [
-            { name: "Python", value: 100, image: require("../assets/images/logo_python.svg") },
-            { name: "JavaScript", value: 100, image: require("../assets/images/logo_javascript.svg") },
-            { name: "TypeScript", value: 90, },
-            { name: "Java", value: 90, image: require("../assets/images/logo_java.svg") },
-            { name: "Kotlin", value: 85, image: require("../assets/images/logo_kotlin.svg") },
-            { name: "C++", value: 80 },
-            { name: "C#", value: 75 },
-            { name: "Ruby", value: 65 }
+            { name: "Java", image: require("../assets/images/logo_java.svg"), link: "https://www.java.com/en/" },
+            { name: "JavaScript", image: require("../assets/images/logo_javascript.svg"), link: "https://www.javascript.com/" },
+            { name: "TypeScript", image: require("../assets/images/logo_typescript.svg"), link: "https://www.typescriptlang.org/" },
+            { name: "Kotlin", image: require("../assets/images/logo_kotlin.svg"), link: "https://kotlinlang.org/" },
+            { name: "Python", image: require("../assets/images/logo_python.svg"), link: "https://www.python.org/" },
+            { name: "C++", image: require("../assets/images/logo_cpp.svg"), link: "https://cplusplus.com/" }
           ],
         },
         
         frontend: {
           title: "Front-End",
-          color: "blue lighten-1",
           subskills:  [
-            { name: "Vue.js", value: 100 },
-            { name: "Angular", value: 65 }
+            { name: "Vue.js", image: require("../assets/images/logo_vue.svg"), link: "https://vuejs.org/" },
+            { name: "Angular", image: require("../assets/images/logo_angular.svg"), link: "https://angular.io/" }
           ],
         },
 
         css: {
           title: "CSS",
-          color: "red darken-3",
           subskills: [
-            { name: "Bootstrap", value: 100 },
-            { name: "Vuetify", value: 100 },
-            { name: "Materialize", value: 95 },
-            { name: "Tailwind", value: 50 }
+            { name: "Bootstrap", image: require("../assets/images/logo_bootstrap.svg"), link: "https://getbootstrap.com/" },
+            { name: "Vuetify", image: require("../assets/images/logo_vuetify.svg"), link: "https://vuetifyjs.com/en/" },
+            { name: "Materialize", image: require("../assets/images/logo_materialize.svg"), link: "https://materializecss.com/" },
+            { name: "Tailwind", image: require("../assets/images/logo_tailwind.svg"), link: "https://tailwindcss.com/" }
           ]
         },
 
         backend: {
           title: "Back-End",
-          color: "blue-grey",
           subskills: [
-            { name: "Flask", value: 100 },
-            { name: "Django", value: 90 },
-            { name: "Spring Boot", value: 85 },
-            { name: "AdonisJS", value: 80 },
-            { name: "Ruby on Rails", value: 60 }
+            { name: "Spring", image: require("../assets/images/logo_spring.svg"), link: "https://spring.io/" },
+            { name: "Flask", image: require("../assets/images/logo_flask.svg"), link: "https://flask.palletsprojects.com/en/2.1.x/" },
+            { name: "Django", image: require("../assets/images/logo_django.svg"), link: "https://www.djangoproject.com/" },
+            { name: "AdonisJS", image: require("../assets/images/logo_adonis.svg"), link: "https://adonisjs.com/" }
           ],
         },
 
         database: {
           title: "Database",
           subskills: [
-            { name: "Postgres", value: 100 },
-            { name: "SQLite", value: 90 },
-            { name: "MongoDB", value: 80 }
+            { name: "Postgres", image: require("../assets/images/logo_postgresql.svg"), link: "https://www.postgresql.org/" },
+            { name: "SQLite", image: require("../assets/images/logo_sqlite.svg"), link: "https://www.sqlite.org/index.html" },
+            { name: "MongoDB", image: require("../assets/images/logo_mongodb.svg"), link: "https://www.mongodb.com/" }
+          ]
+        },
+
+        others: {
+          title: "Others",
+          subskills: [
+            { name: "Git", image: require("../assets/images/logo_git.svg"), link: "https://git-scm.com/" },
+            { name: "Docker", image: require("../assets/images/logo_docker.svg"), link: "https://www.docker.com/" }
           ]
         }
       },
