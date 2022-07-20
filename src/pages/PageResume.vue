@@ -169,7 +169,7 @@
                   </v-card-title>
 
                   <v-card-subtitle>
-                    {{ exp.role }}
+                    {{ exp.role }} ({{ exp.duration }})
                   </v-card-subtitle>
 
                   <v-card-text 
@@ -635,7 +635,7 @@ export default {
         {
           company: "BCA",
           role: "BCA IT Trainee",
-          duration: "Sep 2021 - Now",
+          duration: "Sep 2021 - Mar 2022",
           icon: 'mdi-school',
           color: "blue darken-4",
           description:'<ul>' + 
@@ -644,6 +644,18 @@ export default {
                       '<li>On The Job Training with BCA\'s Credit Card IT Team</li>' +
                       '<li>Final Project Collaboration with fellow BCA IT Trainee</li>' +
                     '</ul>'
+        },
+        {
+          company: "BCA",
+          role: "Senior IT Specialist",
+          duration: "Apr 2022 - Now",
+          icon: 'mdi-laptop',
+          color: "blue darken-4",
+          description:'<p>Working on Credit Card Extended team:</p>' +
+                      '<ul>' +
+                      '<li>Building Java services for company\' PDF needs using Spring, Struts, and iText</li>' +
+                      '<li>Monitoring and Handling various estatement batch jobs</li>' +
+                      '</ul>'
         }
       ],
 
