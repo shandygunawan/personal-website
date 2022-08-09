@@ -13,6 +13,7 @@
           color="teal"
           dark
           v-model="drawer"
+          style="border-radius: 0%;"
         >
           <v-list-item>
             <v-list-item-content>
@@ -93,6 +94,7 @@
             width="100%"
             class="pa-2 d-flex align-center"
             gradient="rgba(0,0,0,.5), rgba(0,0,0,.5)"
+            style="border-radius: 0%;"
           >
             <div
               v-if="$vuetify.breakpoint.smAndUp"
@@ -192,16 +194,19 @@
         <v-card
           id="skills"
           ref="skills"
+          elevation="0"
+          class="content-background-color"
           v-intersect="{
             handler: updateNavDrawerOnIntersect,
             options: {
-              threshold: [0.5, 1]
+              threshold: [0, 0.25, 0.5, 1]
             }
           }"
-          elevation="0"
-          class="content-background-color"
         >
-          <v-card-title class="d-flex justify-center pa-10" style="background-color: teal;">
+          <v-card-title 
+            class="d-flex justify-center pa-10" 
+            style="background-color: teal;"
+          >
             <h1 class="white--text font-fabrikat-normal-thin">
               SKILLS
             </h1>
@@ -209,11 +214,11 @@
 
           <v-card-text class="mt-5">
             <v-row 
-              class="d-flex justify-center ma-10"
+              class="d-flex justify-center pa-2"
               v-for="skill in skills"
               :key="skill.title"
             >
-              <v-col class="col-12 col-md-10">
+              <v-col class="col-12">
                 <CardSkills 
                   :skill="skill"
                 />
@@ -578,7 +583,7 @@ export default {
         feel free to scroll down.`,
 
         repeat: 0,
-        typeDelay: 55,
+        typeDelay: 50,
         preTypeDelay: 120,
         caretAnimation: 'expand'
       },
@@ -881,8 +886,16 @@ HerB is developed with the goal to improve people's awareness of their heart con
       // Responsive nav drawer on scroll seems only working on desktop, I don't know why
       var idx_menu = this.sidebar_menus.findIndex(item => item.title.toLowerCase() === entries[0].target.id);
       if(this.$vuetify.breakpoint.lgAndUp) {
-        this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.5;
-      } else {
+        
+        // Special case for Skills section
+        if(idx_menu === 2) {
+          this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.25;
+        }
+        else {
+          this.sidebar_menus[idx_menu].isIntersecting = entries[0].intersectionRatio >= 0.5;
+        }
+      } 
+      else {
         this.sidebar_menus[idx_menu].isIntersecting = false;
       }
 
@@ -926,12 +939,12 @@ a {
   display: inline-block;
 }
 
-
 ::v-deep #experiences .custom.caret.complete {
   display: inline-block;
 }
 
 /* ANIMATION */
+
 .bounce-4 {
     animation-name: bounce-4;
     animation-timing-function: ease;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col class="col-6">
+      <v-col class="col-12">
         <h1
           class="textHover"
           style="display: inline;"
@@ -10,7 +10,7 @@
     </v-row>
     <v-row>
       <v-col
-        class="col-6 col-sm-4 col-xl-2"
+        class="col-6 col-sm-4 col-xl-2 pa-5"
         v-for="subskill in skill.subskills"
         :key="subskill.name"
         data-aos="flip-down"
