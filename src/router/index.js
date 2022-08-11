@@ -32,11 +32,14 @@ const router = new VueRouter({
 });
 
 // Router guard for document's title
-router.afterEach( (to) => {
+router.beforeEach( (to, _, next) => {
 
   Vue.nextTick( () => {
     document.title = to.meta.title;
   });
+
+  next();
+
 });
 
 export default router;
