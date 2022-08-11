@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import PageIndex from '@/pages/PageIndex.vue';
 
 Vue.use(VueRouter);
 
@@ -8,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'index',
-    component: () => import('@/pages/PageIndex.vue'),
+    component: PageIndex,
     meta: {
       title: "Home"
     }
@@ -32,14 +33,10 @@ const router = new VueRouter({
 });
 
 // Router guard for document's title
-router.beforeEach( (to, _, next) => {
-
+router.afterEach( (to) => {
   Vue.nextTick( () => {
     document.title = to.meta.title;
   });
-
-  next();
-
 });
 
 export default router;
