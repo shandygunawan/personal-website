@@ -1,6 +1,6 @@
 {
   "name": "personal-website",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -13,6 +13,7 @@
     "firebase": "^9.9.2",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
+    "personal-website": "file:",
     "vue": "^2.7.8",
     "vue-particles": "^1.0.9",
     "vue-router": "^3.5.4",

@@ -1,0 +1,18 @@
+# Git and IDE files
+.git
+.vscode
+.idea
+
+# Node dependencies - these are installed inside the container
+node_modules
+
+# Build output - this is generated inside the container
+dist
+npm-debug.log
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Environment variables
+.env*
